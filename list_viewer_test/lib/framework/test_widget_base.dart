@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:list_viewer_test/bloc/test_bloc.dart';
+import 'package:list_viewer_test/bloc/test_bloc_event.dart';
 import 'package:list_viewer_test/bloc/test_bloc_state.dart';
 
 import '../test_definition.dart';
@@ -31,21 +32,22 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
   ) {
     return SizedBox(
         width: 300,
-        child: ListView.builder(
-          controller: ScrollController(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) =>
-              buildListEntryTestLog(context, log[index], index),
-          itemCount: log.length,
-        )
+        child: Text("Need to implement log in the bloc")
+        // ListView.builder(
+        //   controller: ScrollController(),
+        //   shrinkWrap: true,
+        //   itemBuilder: (context, index) =>
+        //       buildListEntryTestLog(context, log[index], index),
+        //   itemCount: log.length,
+        // )
         //Text(log.toString())
 
         );
   }
 
   double componentWidth = 500;
-  TestGroup? selectedGroup;
-  List<TestLog> log = [];
+  //TestGroup? selectedGroup;
+  //List<TestLog> log = [];
   Map<String, dynamic> parameters = {};
 
   void setParameters(String key, dynamic paramValue) {
@@ -70,14 +72,16 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
         "Clear Log",
         () {
           setState(() {
-            log = [];
+           // log = [];
           });
         },
       ),
       buildButton(context, state, 'Select First', () {
-        setState(() {
-          selectedGroup = state.tests[0];
-        });
+        BlocProvider.of<TestBloc>(context).add(TestBlocEventSelectTestCase());
+
+        // setState(() {
+        //   selectedGroup = state.tests[0];
+        // });
       }),
       Text('Width ${componentWidth.toInt()}'),
       buildSlider(
@@ -90,9 +94,10 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
                 componentWidth = value;
               }))
     ];
-    if (selectedGroup != null && selectedGroup!.buildOptionPanel != null) {
-      allWidgets
-          .addAll(selectedGroup!.buildOptionPanel!(parameters, setParameters));
+    if (state.selectedGroup != null &&
+        state.selectedGroup!.buildOptionPanel != null) {
+      allWidgets.addAll(
+          state.selectedGroup!.buildOptionPanel!(parameters, setParameters));
     }
 
     //final Orientation orientation = MediaQuery.of(context).orientation;
@@ -117,9 +122,6 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
   // Widget doGenerate(BuildContext context, TestBlocState state, TestGroup group,
   //     TestDefinition test, Map<String, dynamic> params, Function(String) log);
 
-
-
-
   Widget doGenerate(
       BuildContext context,
       TestBlocState state,
@@ -134,14 +136,11 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
         state.testEnvironment ?? TestEnvironment.fluent);
   }
 
-
-
-
   void addToLog(message, TestDefinition test, TestGroup group) {
-    log.insert(0, TestLog(message, test, group));
-    setState(() {
-      log = log;
-    });
+    // log.insert(0, TestLog(message, test, group));
+    // setState(() {
+    //   log = log;
+    // });
   }
 
   Widget buildComponentTest(
@@ -157,23 +156,25 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
         child: SizedBox(
             height: double.infinity,
             width: componentWidth,
-            child: selectedGroup != null
-                ? buildSelectedTestType(context, state, selectedGroup!)
+            child: state.selectedGroup != null
+                ? buildSelectedTestType(context, state, state.selectedGroup!)
                 : const Text("No group selected")));
   }
 
-  Widget buildSelectedTestType(BuildContext context, TestBlocState state,TestGroup group) {
+  Widget buildSelectedTestType(
+      BuildContext context, TestBlocState state, TestGroup group) {
     if (group.pageType == TestPageType.grid) {
-      return buildGridView(context,state, group);
+      return buildGridView(context, state, group);
     } else if (group.pageType == TestPageType.listview) {
       return buildListView(context, state, group);
     } else if (group.pageType == TestPageType.column) {
-      return buildColumn(context, state,group);
+      return buildColumn(context, state, group);
     }
     return const Text("Unhandled type");
   }
 
-  Widget buildGridView(BuildContext context, TestBlocState state,TestGroup group) {
+  Widget buildGridView(
+      BuildContext context, TestBlocState state, TestGroup group) {
     List<Widget> items = getAllTestWidgets(context, state, group);
 
     return GridView.count(
@@ -182,14 +183,16 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
     );
   }
 
-  Widget buildListView(BuildContext context, TestBlocState state, TestGroup group) {
+  Widget buildListView(
+      BuildContext context, TestBlocState state, TestGroup group) {
     return ListView(
       shrinkWrap: true,
-      children: getAllTestWidgets(context,state, group),
+      children: getAllTestWidgets(context, state, group),
     );
   }
 
-  Widget buildColumn(BuildContext context, TestBlocState state,TestGroup group) {
+  Widget buildColumn(
+      BuildContext context, TestBlocState state, TestGroup group) {
     return Column(
       children: getAllTestWidgets(context, state, group),
     );
@@ -206,9 +209,12 @@ abstract class ATestPageState<P extends ATestPageWidget> extends State<P> {
         context,
         state,
         state.tests,
-        selectedGroup,
-        (value) => setState(() {
-              selectedGroup = value;
-            }));
+        state.selectedGroup,
+        (value) => BlocProvider.of<TestBloc>(context)
+            .add(TestBlocEventSelectTestCase(testGroup: value))
+        // setState(() {
+        //       selectedGroup = value;
+        //     })
+        );
   }
 }

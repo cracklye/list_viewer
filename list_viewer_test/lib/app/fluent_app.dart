@@ -19,21 +19,67 @@ class AppFluent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FluentApp(
-        title: appTitle,
-        // themeMode: appTheme.mode,
-        debugShowCheckedModeBanner: false,
-        home: const TestPageWidgetFluent(),
-        theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            accentColor: Colors.blue,
-            iconTheme: const IconThemeData(size: 24)),
-        darkTheme: ThemeData(
-            scaffoldBackgroundColor: Colors.black,
-            accentColor: Colors.blue,
-            iconTheme: const IconThemeData(size: 24)),
-        builder: (context, child) {
-          return child!;
-        });
+      title: appTitle,
+      // themeMode: appTheme.mode,
+      debugShowCheckedModeBanner: false,
+      home: NavigationView(
+        content: TestPageWidgetFluent(),
+        appBar: NavigationAppBar(
+          actions: TestToolBar(),
+          title: Text("Windows App"),
+        ),
+        pane: NavigationPane(displayMode: PaneDisplayMode.compact,
+            //size: NavigationPaneSize(compactWidth: 0,  openWidth: 0),
+            items: [
+              PaneItem(icon: Icon(FluentIcons.home), title: Text("Home")),
+              // PaneItem(
+              //     icon: Icon(FluentIcons.insert),
+              //     title: Text("Insert")
+              // ),
+              // PaneItem(
+              //     icon: Icon(FluentIcons.view),
+              //     title: Text("View")
+              // )
+            ]),
+      ),
+
+      // NavigationView(
+      //     //key: viewKey,
+      //     appBar: NavigationAppBar(
+      //       automaticallyImplyLeading: false,
+      //       title: () {
+      //         if (kIsWeb) return const Text(appTitle);
+      //         return const DragToMoveArea(
+      //           child: Align(
+      //             alignment: AlignmentDirectional.centerStart,
+      //             child: Text(appTitle),
+      //           ),
+      //         );
+      //       }(),
+      //       actions: kIsWeb
+      //           ? null
+      //           : Row(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: const [Spacer(), WindowButtons()],
+      //             ),
+      //     ),
+      //     pane: NavigationPane(items:[
+      //       const TestPageWidgetFluent(),
+      //     ]
+      //     )),
+
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          accentColor: Colors.blue,
+          iconTheme: const IconThemeData(size: 24)),
+      // darkTheme: ThemeData(
+      //     scaffoldBackgroundColor: Colors.black,
+      //     accentColor: Colors.blue,
+      //     iconTheme: const IconThemeData(size: 24)),
+      // builder: (context, child) {
+      //   return child!;
+      // }
+    );
   }
 }
 
