@@ -1,10 +1,6 @@
+import 'package:flex_test/flex_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:list_viewer_test/bloc/test_bloc_state.dart';
-import 'package:list_viewer_test/test_definition.dart';
-import 'package:list_viewer_test/widgets/woue_button.dart';
-import 'package:list_viewer_test/widgets/woue_debug.dart';
-import 'package:list_viewer_test/widgets/woue_label.dart';
+import 'package:woue_components/woue_components.dart';
 
 var allTests = [
   woue_components,
@@ -83,9 +79,9 @@ var sampleTab = TestGroup("Tab Test", pageType: TestPageType.tab, [
 
 var woue_components = TestGroup("WOUE Components", [
   TestDefinition(
-      "WOUEDebug", (context, params, log, environment) => WOUEDebug()),
+      "WOUEDebug", (context, params, log, environment) => WoueDebug()),
   TestDefinition(
-      "WOEButton", (context, params, log, environment) => WOUEButton()),
-  TestDefinition(
-      "WOUELabel", (context, params, log, environment) => WOUELabel()),
+      "WOEButton", (context, params, log, environment) => WoueButton()),
+  TestDefinition("WOUELabel",
+      (context, params, log, environment) => WoueShowDesignFramework()),
 ]);

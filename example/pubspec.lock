@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.4"
+  flex_test:
+    dependency: "direct main"
+    description:
+      path: "../../flex_test"
+      relative: true
+    source: path
+    version: "0.0.1"
   fluent_ui:
     dependency: "direct main"
     description:
@@ -411,6 +418,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.7"
+  woue_components:
+    dependency: "direct main"
+    description:
+      path: "../../woue_components"
+      relative: true
+    source: path
+    version: "0.0.1"
   xdg_directories:
     dependency: transitive
     description:
@@ -447,5 +461,5 @@ packages:
     source: hosted
     version: "0.1.0"
 sdks:
-  dart: ">=2.17.3 <3.0.0"
+  dart: ">=2.17.6 <3.0.0"
   flutter: ">=3.0.0"

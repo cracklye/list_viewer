@@ -31,6 +31,10 @@ dependencies:
     sdk: flutter
   list_viewer:
     path: ../
+  woue_components:
+    path: ../../woue_components
+  flex_test:
+    path: ../../flex_test
   yaru:
   fluent_ui: 
 
@@ -40,6 +44,7 @@ dependencies:
   url_strategy:
   window_manager: 
   macos_ui:
+
   
 
   flutter_bloc: ^8.1.1
