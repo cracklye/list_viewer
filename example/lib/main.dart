@@ -14,6 +14,8 @@ import 'package:list_viewer_test/test_definition.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'bloc/test_bloc_state.dart';
+
 bool get isDesktop {
   if (kIsWeb) return false;
   return [
@@ -64,10 +66,6 @@ void main() async {
 
   runApp(TestApp(map, allTests));
 }
-
-
-
-
 
 class TestApp extends StatelessWidget {
   final Map<TestEnvironment, Widget Function(BuildContext)> testEnvironments;
