@@ -66,38 +66,3 @@ void main() async {
 
   runApp(TestApp(map, allTests));
 }
-
-class TestApp extends StatelessWidget {
-  final Map<TestEnvironment, Widget Function(BuildContext)> testEnvironments;
-  final List<TestGroup> tests;
-
-  const TestApp(this.testEnvironments, this.tests, {Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => TestBloc(tests, testEnvironments.keys.first),
-      child: SelectEnvironment(testEnvironments),
-    );
-  }
-}
-
-class SelectEnvironment extends StatelessWidget {
-  const SelectEnvironment(this.testEnvironments, {Key? key}) : super(key: key);
-  final Map<TestEnvironment, Widget Function(BuildContext)> testEnvironments;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<TestBloc, TestBlocState>(builder: (context, state) {
-      //Get the matching..
-
-      var fn = testEnvironments[state.testEnvironment];
-      if (fn != null) {
-        return fn(context);
-      }
-      return Text("Unknown type");
-      // return widget here based on BlocA's state
-    });
-  }
-}
